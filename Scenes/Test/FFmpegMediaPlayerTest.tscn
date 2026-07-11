@@ -1,0 +1,265 @@
+[gd_scene format=3 uid="uid://d2c5w5moq4ktk"]
+
+[ext_resource type="Script" uid="uid://cp5oprfug1vc" path="res://Scenes/Test/FFmpegMediaPlayerTest.cs" id="1_givnm"]
+[ext_resource type="Texture2D" uid="uid://c4nvki51pui0i" path="res://Icons/Play.svg" id="2_jwybq"]
+[ext_resource type="Texture2D" uid="uid://bdrlhk4qmbf5r" path="res://Icons/Pause.svg" id="3_wca4i"]
+[ext_resource type="Texture2D" uid="uid://x24eme7vcpw8" path="res://Icons/FullScreen.svg" id="4_h72qr"]
+[ext_resource type="Texture2D" uid="uid://dbqwtntth6ha5" path="res://Icons/FullScreenOff.svg" id="5_fgslo"]
+[ext_resource type="Script" uid="uid://b53q7wagpa3v4" path="res://addons/FFmpegMediaPlayer/FFmpegGodot/FFmpegPlayer.cs" id="6_x3hyo"]
+[ext_resource type="StyleBox" uid="uid://c0edsfm44aao6" path="res://Themes/PanelContainerStyleBoxFlatTheme.tres" id="7_pl5dj"]
+[ext_resource type="Theme" uid="uid://cyw821moyqybs" path="res://Themes/MenuButtonTheme.tres" id="8_x3rr0"]
+[ext_resource type="Texture2D" uid="uid://vsrl7sgaf4w8" path="res://Icons/Stop.svg" id="9_lvj2g"]
+[ext_resource type="Texture2D" uid="uid://sp0gv346qrqo" path="res://Icons/Subtitle.svg" id="10_3buwp"]
+[ext_resource type="Texture2D" uid="uid://5afc5nkkgdpm" path="res://Icons/Loop.svg" id="11_kowmv"]
+[ext_resource type="Texture2D" uid="uid://h20kh4u805tt" path="res://Icons/Settings.svg" id="12_snexx"]
+[ext_resource type="Texture2D" uid="uid://djh8fccm5lbus" path="res://Icons/Info.svg" id="13_fkep2"]
+[ext_resource type="PackedScene" uid="uid://vm0vs1qtuf2h" path="res://Scenes/Test/Windows/SettingsWindow.tscn" id="14_846w5"]
+
+[sub_resource type="Gradient" id="Gradient_5vw27"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kek77"]
+gradient = SubResource("Gradient_5vw27")
+width = 16
+height = 16
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_5vw27"]
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kek77"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="FFmpegMediaPlayerTest" type="Control" unique_id=1438584744 node_paths=PackedStringArray("_ffmpegPlayer", "_debugLabel", "_timeLabel", "_durationLabel", "_timeSlider", "_playbackButton", "_stopButton", "_loopButton", "_controllerButton", "_fullScreenButton", "_openFileDialog", "_settingsWindow", "_ui", "_fileMenuButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_givnm")
+_ffmpegPlayer = NodePath("FFmpegPlayer")
+_debugLabel = NodePath("UI/Gap/DebugLabel")
+_timeLabel = NodePath("UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer/TimeLabel")
+_durationLabel = NodePath("UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer/DurationLabel")
+_timeSlider = NodePath("UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer/TimeHSlider")
+_playbackButton = NodePath("UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer/PlaybackButton")
+_playIcon = ExtResource("2_jwybq")
+_pauseIcon = ExtResource("3_wca4i")
+_stopButton = NodePath("UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer/StopButton")
+_loopButton = NodePath("UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer/LoopButton")
+_controllerButton = NodePath("UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer/SettingsButton")
+_fullScreenButton = NodePath("UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer/FullScreenButton")
+_fullScreenOnIcon = ExtResource("4_h72qr")
+_fullScreenOffIcon = ExtResource("5_fgslo")
+_openFileDialog = NodePath("FileDialog")
+_settingsWindow = NodePath("SettingsWindow")
+_ui = NodePath("UI")
+_fileMenuButton = NodePath("UI/MenuContainer/HBoxContainer/MenuButton")
+
+[node name="BackgroundRect" type="ColorRect" parent="." unique_id=413229123]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+color = Color(0, 0, 0, 1)
+
+[node name="FFmpegPlayer" type="Control" parent="." unique_id=1266112452]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_x3hyo")
+LoadAsync = true
+DebugLog = true
+metadata/_custom_type_script = "uid://b53q7wagpa3v4"
+
+[node name="UI" type="VBoxContainer" parent="." unique_id=1560651257]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="MenuContainer" type="PanelContainer" parent="UI" unique_id=428071367]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("7_pl5dj")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/MenuContainer" unique_id=459961048]
+layout_mode = 2
+
+[node name="MenuButton" type="MenuButton" parent="UI/MenuContainer/HBoxContainer" unique_id=1291176224]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_x3rr0")
+text = "File"
+item_count = 3
+popup/item_0/text = "Open"
+popup/item_0/id = 0
+popup/item_1/text = "Close"
+popup/item_1/id = 1
+popup/item_2/text = "Exit"
+popup/item_2/id = 2
+
+[node name="Gap" type="Control" parent="UI" unique_id=1755975085]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DebugLabel" type="Label" parent="UI/Gap" unique_id=1066264997]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 12.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 20
+
+[node name="ControlContainer" type="PanelContainer" parent="UI" unique_id=1150905651]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("7_pl5dj")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/ControlContainer" unique_id=1050258692]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/ControlContainer/VBoxContainer" unique_id=982771791]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/ControlContainer/VBoxContainer/MarginContainer" unique_id=1940368766]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="TimeLabel" type="Label" parent="UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=1073213159]
+layout_mode = 2
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 18
+text = "00:00:000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimeHSlider" type="HSlider" parent="UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=1514906064]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+focus_mode = 0
+mouse_default_cursor_shape = 10
+theme_override_constants/center_grabber = 1
+theme_override_icons/grabber = SubResource("GradientTexture2D_kek77")
+theme_override_icons/grabber_highlight = SubResource("GradientTexture2D_kek77")
+theme_override_styles/slider = SubResource("StyleBoxLine_5vw27")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_kek77")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_kek77")
+max_value = 0.0
+step = 0.0
+
+[node name="DurationLabel" type="Label" parent="UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=689711282]
+layout_mode = 2
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 18
+text = "00:00:000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlaybackButton" type="Button" parent="UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=9700580]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+tooltip_text = "Play/Pause"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+icon = ExtResource("2_jwybq")
+icon_alignment = 1
+expand_icon = true
+
+[node name="StopButton" type="Button" parent="UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=310882897]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+tooltip_text = "Stop"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+icon = ExtResource("9_lvj2g")
+expand_icon = true
+
+[node name="SubtitleButton" type="Button" parent="UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=545918636]
+visible = false
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+tooltip_text = "Subtitle (Unavaiable right now)"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+disabled = true
+toggle_mode = true
+icon = ExtResource("10_3buwp")
+expand_icon = true
+
+[node name="LoopButton" type="Button" parent="UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=1980002768]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+tooltip_text = "Loop"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+toggle_mode = true
+icon = ExtResource("11_kowmv")
+expand_icon = true
+
+[node name="SettingsButton" type="Button" parent="UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=264560346]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+tooltip_text = "Settings"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+icon = ExtResource("12_snexx")
+expand_icon = true
+
+[node name="InfoButton" type="Button" parent="UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=1899147681]
+visible = false
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+tooltip_text = "Information (Unavaiable right now)"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+disabled = true
+icon = ExtResource("13_fkep2")
+expand_icon = true
+
+[node name="FullScreenButton" type="Button" parent="UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=460701756]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+tooltip_text = "Fullscreen"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+icon = ExtResource("4_h72qr")
+expand_icon = true
+
+[node name="FileDialog" type="FileDialog" parent="." unique_id=207287179]
+title = "Open a File"
+initial_position = 1
+size = Vector2i(1280, 720)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+use_native_dialog = true
+
+[node name="SettingsWindow" parent="." unique_id=329399804 instance=ExtResource("14_846w5")]
+visible = false
