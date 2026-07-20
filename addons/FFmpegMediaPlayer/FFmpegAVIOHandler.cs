@@ -149,6 +149,9 @@ public sealed unsafe class FFmpegAVIOHandler : IDisposable
 
         if (PAVIOContext != null)
         {
+            if (PAVIOContext->buffer != null)
+                ffmpeg.av_freep(&PAVIOContext->buffer);
+
             fixed (AVIOContext** ppAVIOContext = &PAVIOContext)
                 ffmpeg.avio_context_free(ppAVIOContext);
 

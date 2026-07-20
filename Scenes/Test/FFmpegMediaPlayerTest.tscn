@@ -77,7 +77,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("6_x3hyo")
-LoadAsync = true
 DebugLog = true
 metadata/_custom_type_script = "uid://b53q7wagpa3v4"
 

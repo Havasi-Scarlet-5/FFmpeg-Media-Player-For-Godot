@@ -158,9 +158,8 @@ public partial class FFmpegExportPlugin : EditorExportPlugin
 
     public override void _ExportFile(string path, string type, string[] features)
     {
-        foreach (var extension in FFmpegStatic.RecognizedVideoExtensions)
-            if (path.GetExtension().Equals(extension, StringComparison.OrdinalIgnoreCase))
-                AddFile(path, FileAccess.GetFileAsBytes(path), false);
+        if (Array.Exists(FFmpegStatic.RecognizedVideoExtensions, e => path.GetExtension().Equals(e, StringComparison.OrdinalIgnoreCase)))
+            AddFile(path, FileAccess.GetFileAsBytes(path), false);
     }
 }
 
