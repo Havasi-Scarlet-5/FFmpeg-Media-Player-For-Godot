@@ -390,16 +390,14 @@ public sealed unsafe partial class FFmpegVideoHandler : RefCounted
 
     public Image GetCurrentFrameImage()
     {
-        var inFrame = _decoder?.GetCurrentFrame();
-
-        if (inFrame == null)
+        if (!_decoder.TryGetCurrentFrame(out var inFrame))
             return null;
 
         FFmpegVideoFrameConverter converter = null;
 
         try
         {
-            var pixelFormat = (AVPixelFormat)inFrame.Value.format;
+            var pixelFormat = (AVPixelFormat)inFrame.format;
 
             var width = _decoder.Resolution.Width;
 
@@ -410,16 +408,16 @@ public sealed unsafe partial class FFmpegVideoHandler : RefCounted
             if (pixelFormat != AVPixelFormat.AV_PIX_FMT_RGB24)
             {
                 converter = new FFmpegVideoFrameConverter(
-                    new(inFrame.Value.width, inFrame.Value.height),
+                    new(inFrame.width, inFrame.height),
                     pixelFormat,
                     new(width, height),
                     AVPixelFormat.AV_PIX_FMT_RGB24
                 );
 
-                outFrame = converter.Convert(inFrame.Value);
+                outFrame = converter.Convert(inFrame);
             }
             else
-                outFrame = inFrame.Value;
+                outFrame = inFrame;
 
             return Image.CreateFromData(
                 width,

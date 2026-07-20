@@ -237,7 +237,7 @@ expand_icon = true
 [node name="ScreenShotButton" type="Button" parent="UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=2075393891]
 custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
-tooltip_text = "Settings"
+tooltip_text = "Take Screenshot"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 icon = ExtResource("13_jwybq")

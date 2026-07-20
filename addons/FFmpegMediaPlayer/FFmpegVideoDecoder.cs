@@ -500,7 +500,27 @@ public sealed unsafe class FFmpegVideoDecoder : IDisposable
         }
     }
 
-    public AVFrame GetCurrentFrame() => *_pFrame;
+    public bool TryGetCurrentFrame(out AVFrame outFrame)
+    {
+        outFrame = default;
+
+        if (!Exist)
+            return false;
+
+        lock (_seekLock)
+        {
+            try
+            {
+                outFrame = *_pFrame;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                FFmpegLogger.LogErr(this, $"Try get current frame error: {ex.Message}");
+                return false;
+            }
+        }
+    }
 
     public bool TrySeek(double timeInSeconds, CancellationToken cancellationToken = default)
     {
