@@ -399,7 +399,7 @@ public sealed unsafe class FFmpegAudioDecoder : IDisposable
         {
             if (_pBufferSrcCtx != null)
             {
-                var flushResult = ffmpeg.av_buffersrc_add_frame_flags(_pBufferSrcCtx, null, FFmpegFlags.AV_BUFFERSRC_FLAG_PUSH);
+                var flushResult = ffmpeg.av_buffersrc_add_frame_flags(_pBufferSrcCtx, null, (int)AvBuffersrcFlag.AV_BUFFERSRC_FLAG_PUSH);
 
                 if (flushResult < 0)
                     FFmpegLogger.LogErr(this, "Flush audio filter error: " + FFmpegHelper.AVStringError(flushResult));
@@ -627,7 +627,7 @@ public sealed unsafe class FFmpegAudioDecoder : IDisposable
                             var filterResult = ffmpeg.av_buffersrc_add_frame_flags(
                                 _pBufferSrcCtx,
                                 _pFrame,
-                                FFmpegFlags.AV_BUFFERSRC_FLAG_KEEP_REF | FFmpegFlags.AV_BUFFERSRC_FLAG_NO_CHECK_FORMAT
+                                (int)(AvBuffersrcFlag.AV_BUFFERSRC_FLAG_KEEP_REF | AvBuffersrcFlag.AV_BUFFERSRC_FLAG_NO_CHECK_FORMAT)
                             );
 
                             if (filterResult < 0)
@@ -665,7 +665,7 @@ public sealed unsafe class FFmpegAudioDecoder : IDisposable
                         }
                         else if (receiveResult == ffmpeg.AVERROR_EOF)
                         {
-                            var filterResult = ffmpeg.av_buffersrc_add_frame_flags(_pBufferSrcCtx, null, FFmpegFlags.AV_BUFFERSRC_FLAG_PUSH);
+                            var filterResult = ffmpeg.av_buffersrc_add_frame_flags(_pBufferSrcCtx, null, (int)AvBuffersrcFlag.AV_BUFFERSRC_FLAG_PUSH);
 
                             if (filterResult >= 0)
                             {

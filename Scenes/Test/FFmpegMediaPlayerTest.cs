@@ -35,7 +35,10 @@ public partial class FFmpegMediaPlayerTest : Control
     private Button _loopButton;
 
     [Export]
-    private Button _controllerButton;
+    private Button _settingsButton;
+
+    [Export]
+    private Button _screenShotButton;
 
     [Export]
     private Button _fullScreenButton;
@@ -48,6 +51,9 @@ public partial class FFmpegMediaPlayerTest : Control
 
     [Export]
     private FileDialog _openFileDialog;
+
+    [Export]
+    private FileDialog _screenShotFileDialog;
 
     [Export]
     private SettingsWindow _settingsWindow;
@@ -93,6 +99,19 @@ public partial class FFmpegMediaPlayerTest : Control
         {
             _newMediaFileLoaded = true;
             _ffmpegPlayer.Open(new FFmpegSource() { Url = path });
+        };
+
+        _screenShotFileDialog.AddFilter("*.jpg, *.png", "Supported Image Files");
+
+        _screenShotFileDialog.FileSelected += path =>
+        {
+            var extension = path.GetExtension().ToLower();
+
+            // Save current frame image as screenshot picture
+            if (extension == "jpg")
+                _ffmpegPlayer.VideoHandler?.GetCurrentFrameImage().SaveJpg(path);
+            else if (extension == "png")
+                _ffmpegPlayer.VideoHandler?.GetCurrentFrameImage().SavePng(path);
         };
 
         GetViewport().GetWindow().FilesDropped += file =>
@@ -168,7 +187,7 @@ public partial class FFmpegMediaPlayerTest : Control
 
         _settingsWindow.RegisterPlayer(_ffmpegPlayer);
 
-        _controllerButton.Pressed += () =>
+        _settingsButton.Pressed += () =>
         {
             if (_settingsWindow.Visible)
             {
@@ -185,20 +204,27 @@ public partial class FFmpegMediaPlayerTest : Control
             _settingsWindow.SetPosition(new Vector2I(mousePos.X - windowSize.X, mousePos.Y - windowSize.Y - 32));
         };
 
+        _screenShotButton.Pressed += TakeScreenShot;
+
         _fileMenuButton.GetPopup().IdPressed += id =>
         {
             switch (id)
             {
                 case 0: // Open
-                    _openFileDialog.PopupCentered();
-                    break;
+                    {
+                        _openFileDialog.PopupCentered();
+                        break;
+                    }
                 case 1: // Close
-                    // Close the media
-                    _ffmpegPlayer.Close();
-                    break;
+                    {
+                        _ffmpegPlayer.Close();
+                        break;
+                    }
                 case 2: // Exit
-                    GetTree().Quit();
-                    break;
+                    {
+                        GetTree().Quit();
+                        break;
+                    }
             }
         };
 
@@ -292,6 +318,11 @@ public partial class FFmpegMediaPlayerTest : Control
                         GetTree().Quit();
                         break;
                     }
+                case Key.Print:
+                    {
+                        TakeScreenShot();
+                        break;
+                    }
             }
         }
 
@@ -326,5 +357,13 @@ public partial class FFmpegMediaPlayerTest : Control
         }
 
         _lastWindowMode = mode;
+    }
+
+    private void TakeScreenShot()
+    {
+        if (_ffmpegPlayer.VideoHandler == null)
+            return;
+
+        _screenShotFileDialog.PopupCentered();
     }
 }

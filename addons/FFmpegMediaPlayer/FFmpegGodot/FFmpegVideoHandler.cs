@@ -388,6 +388,59 @@ public sealed unsafe partial class FFmpegVideoHandler : RefCounted
         }
     }
 
+    public Image GetCurrentFrameImage()
+    {
+        var inFrame = _decoder?.GetCurrentFrame();
+
+        if (inFrame == null)
+            return null;
+
+        FFmpegVideoFrameConverter converter = null;
+
+        try
+        {
+            var pixelFormat = (AVPixelFormat)inFrame.Value.format;
+
+            var width = _decoder.Resolution.Width;
+
+            var height = _decoder.Resolution.Height;
+
+            AVFrame outFrame;
+
+            if (pixelFormat != AVPixelFormat.AV_PIX_FMT_RGB24)
+            {
+                converter = new FFmpegVideoFrameConverter(
+                    new(inFrame.Value.width, inFrame.Value.height),
+                    pixelFormat,
+                    new(width, height),
+                    AVPixelFormat.AV_PIX_FMT_RGB24
+                );
+
+                outFrame = converter.Convert(inFrame.Value);
+            }
+            else
+                outFrame = inFrame.Value;
+
+            return Image.CreateFromData(
+                width,
+                height,
+                false,
+                Image.Format.Rgb8,
+                new ReadOnlySpan<byte>(outFrame.data[0], width * height * 3)
+            );
+        }
+        catch (Exception e)
+        {
+            FFmpegLogger.LogErr(this, "Error getting current video frame: ", e.Message);
+        }
+        finally
+        {
+            converter?.Dispose();
+        }
+
+        return null;
+    }
+
     public new void Dispose()
     {
         Stop();

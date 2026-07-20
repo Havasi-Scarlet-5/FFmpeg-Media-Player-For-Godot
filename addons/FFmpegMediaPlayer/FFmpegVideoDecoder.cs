@@ -245,7 +245,7 @@ public sealed unsafe class FFmpegVideoDecoder : IDisposable
                         Resolution.Width,
                         Resolution.Height,
                         AVPixelFormat.AV_PIX_FMT_YUV420P,
-                        FFmpegFlags.SWS_FAST_BILINEAR,
+                        (int)SwsFlags.SWS_FAST_BILINEAR,
                         null,
                         null,
                         null
@@ -499,6 +499,8 @@ public sealed unsafe class FFmpegVideoDecoder : IDisposable
             }
         }
     }
+
+    public AVFrame GetCurrentFrame() => *_pFrame;
 
     public bool TrySeek(double timeInSeconds, CancellationToken cancellationToken = default)
     {

@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://5afc5nkkgdpm" path="res://Icons/Loop.svg" id="11_kowmv"]
 [ext_resource type="Texture2D" uid="uid://h20kh4u805tt" path="res://Icons/Settings.svg" id="12_snexx"]
 [ext_resource type="Texture2D" uid="uid://djh8fccm5lbus" path="res://Icons/Info.svg" id="13_fkep2"]
+[ext_resource type="Texture2D" uid="uid://ch4c5avwma3gs" path="res://Icons/ScreenShot.svg" id="13_jwybq"]
 [ext_resource type="PackedScene" uid="uid://vm0vs1qtuf2h" path="res://Scenes/Test/Windows/SettingsWindow.tscn" id="14_846w5"]
 
 [sub_resource type="Gradient" id="Gradient_5vw27"]
@@ -32,7 +33,7 @@ thickness = 16
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kek77"]
 bg_color = Color(1, 1, 1, 1)
 
-[node name="FFmpegMediaPlayerTest" type="Control" unique_id=1438584744 node_paths=PackedStringArray("_ffmpegPlayer", "_debugLabel", "_timeLabel", "_durationLabel", "_timeSlider", "_playbackButton", "_stopButton", "_loopButton", "_controllerButton", "_fullScreenButton", "_openFileDialog", "_settingsWindow", "_ui", "_fileMenuButton")]
+[node name="FFmpegMediaPlayerTest" type="Control" unique_id=1438584744 node_paths=PackedStringArray("_ffmpegPlayer", "_debugLabel", "_timeLabel", "_durationLabel", "_timeSlider", "_playbackButton", "_stopButton", "_loopButton", "_settingsButton", "_screenShotButton", "_fullScreenButton", "_openFileDialog", "_screenShotFileDialog", "_settingsWindow", "_ui", "_fileMenuButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -50,11 +51,13 @@ _playIcon = ExtResource("2_jwybq")
 _pauseIcon = ExtResource("3_wca4i")
 _stopButton = NodePath("UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer/StopButton")
 _loopButton = NodePath("UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer/LoopButton")
-_controllerButton = NodePath("UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer/SettingsButton")
+_settingsButton = NodePath("UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer/SettingsButton")
+_screenShotButton = NodePath("UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer/ScreenShotButton")
 _fullScreenButton = NodePath("UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer/FullScreenButton")
 _fullScreenOnIcon = ExtResource("4_h72qr")
 _fullScreenOffIcon = ExtResource("5_fgslo")
-_openFileDialog = NodePath("FileDialog")
+_openFileDialog = NodePath("OpenFileDialog")
+_screenShotFileDialog = NodePath("ScreenShotFileDialog")
 _settingsWindow = NodePath("SettingsWindow")
 _ui = NodePath("UI")
 _fileMenuButton = NodePath("UI/MenuContainer/HBoxContainer/MenuButton")
@@ -231,6 +234,15 @@ mouse_default_cursor_shape = 2
 icon = ExtResource("12_snexx")
 expand_icon = true
 
+[node name="ScreenShotButton" type="Button" parent="UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=2075393891]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+tooltip_text = "Settings"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+icon = ExtResource("13_jwybq")
+expand_icon = true
+
 [node name="InfoButton" type="Button" parent="UI/ControlContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=1899147681]
 visible = false
 custom_minimum_size = Vector2(36, 36)
@@ -251,12 +263,19 @@ mouse_default_cursor_shape = 2
 icon = ExtResource("4_h72qr")
 expand_icon = true
 
-[node name="FileDialog" type="FileDialog" parent="." unique_id=207287179]
+[node name="OpenFileDialog" type="FileDialog" parent="." unique_id=207287179]
 title = "Open a File"
 initial_position = 1
 size = Vector2i(1280, 720)
 ok_button_text = "Open"
 file_mode = 0
+access = 2
+use_native_dialog = true
+
+[node name="ScreenShotFileDialog" type="FileDialog" parent="." unique_id=825149206]
+initial_position = 1
+size = Vector2i(1280, 720)
+ok_button_text = "Open"
 access = 2
 use_native_dialog = true
 
