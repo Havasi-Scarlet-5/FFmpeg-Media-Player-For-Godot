@@ -46,7 +46,7 @@ public sealed unsafe class FFmpegVideoDecoder : IDisposable
 
     private SwsContext* _pSwsContext;
 
-    private readonly byte* _convertedFrameBuffer;
+    private byte* _convertedFrameBuffer;
 
     private byte_ptr4 _destinationData;
 
@@ -639,7 +639,10 @@ public sealed unsafe class FFmpegVideoDecoder : IDisposable
                 }
 
             if (_convertedFrameBuffer != null)
+            {
                 ffmpeg.av_free(_convertedFrameBuffer);
+                _convertedFrameBuffer = null;
+            }
 
             if (_pSwsContext != null)
             {

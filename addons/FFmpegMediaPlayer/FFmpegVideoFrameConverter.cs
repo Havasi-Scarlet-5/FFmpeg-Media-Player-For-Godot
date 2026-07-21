@@ -1,21 +1,22 @@
 using System;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using FFmpeg.AutoGen.Abstractions;
 
 namespace FFmpegMediaPlayer;
 
 public sealed unsafe class FFmpegVideoFrameConverter : IDisposable
 {
-    private readonly IntPtr _convertedFrameBufferPtr;
+    private byte* _convertedFrameBuffer;
 
     private readonly Size _destinationSize;
+
+    private readonly AVPixelFormat _destinationPixelFormat;
 
     private readonly byte_ptr4 _dstData;
 
     private readonly int4 _dstLinesize;
 
-    private readonly SwsContext* _pConvertContext;
+    private SwsContext* _pConvertContext;
 
     public FFmpegVideoFrameConverter(
         Size sourceSize,
@@ -25,6 +26,8 @@ public sealed unsafe class FFmpegVideoFrameConverter : IDisposable
     )
     {
         _destinationSize = destinationSize;
+
+        _destinationPixelFormat = destinationPixelFormat;
 
         _pConvertContext = ffmpeg.sws_getContext(
             sourceSize.Width,
@@ -52,7 +55,7 @@ public sealed unsafe class FFmpegVideoFrameConverter : IDisposable
             1
         );
 
-        _convertedFrameBufferPtr = Marshal.AllocHGlobal(convertedFrameBufferSize);
+        _convertedFrameBuffer = (byte*)ffmpeg.av_malloc((ulong)convertedFrameBufferSize);
 
         _dstData = new byte_ptr4();
 
@@ -61,7 +64,7 @@ public sealed unsafe class FFmpegVideoFrameConverter : IDisposable
         ffmpeg.av_image_fill_arrays(
             ref _dstData,
             ref _dstLinesize,
-            (byte*)_convertedFrameBufferPtr,
+            _convertedFrameBuffer,
             destinationPixelFormat,
             destinationSize.Width,
             destinationSize.Height,
@@ -71,8 +74,17 @@ public sealed unsafe class FFmpegVideoFrameConverter : IDisposable
 
     public void Dispose()
     {
-        Marshal.FreeHGlobal(_convertedFrameBufferPtr);
-        ffmpeg.sws_freeContext(_pConvertContext);
+        if (_convertedFrameBuffer != null)
+        {
+            ffmpeg.av_free(_convertedFrameBuffer);
+            _convertedFrameBuffer = null;
+        }
+
+        if (_pConvertContext != null)
+        {
+            ffmpeg.sws_freeContext(_pConvertContext);
+            _pConvertContext = null;
+        }
     }
 
     public AVFrame Convert(AVFrame sourceFrame)
@@ -100,7 +112,8 @@ public sealed unsafe class FFmpegVideoFrameConverter : IDisposable
             data = data,
             linesize = linesize,
             width = _destinationSize.Width,
-            height = _destinationSize.Height
+            height = _destinationSize.Height,
+            format = (int)_destinationPixelFormat
         };
     }
 }
