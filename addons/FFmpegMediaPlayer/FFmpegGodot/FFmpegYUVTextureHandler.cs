@@ -91,9 +91,9 @@ public partial class FFmpegYUVTextureHandler : RefCounted
             // SMPTE 240M
             AVColorSpace.AVCOL_SPC_SMPTE240M => new float[,]
             {
-                { 1.0f,  0.0f,       1.575f    },
-                { 1.0f, -0.225f,    -0.500f    },
-                { 1.0f,  1.826f,     0.0f      }
+                { 1.0f,  0.0f,       1.5756f   },
+                { 1.0f, -0.2253f,   -0.4767f   },
+                { 1.0f,  1.8270f,    0.0f      }
             },
             // BT.2020 (UHD/4K/8K)
             AVColorSpace.AVCOL_SPC_BT2020_NCL => new float[,]

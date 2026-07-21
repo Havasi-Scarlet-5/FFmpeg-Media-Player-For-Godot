@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dbqwtntth6ha5" path="res://Icons/FullScreenOff.svg" id="5_fgslo"]
 [ext_resource type="Script" uid="uid://b53q7wagpa3v4" path="res://addons/FFmpegMediaPlayer/FFmpegGodot/FFmpegPlayer.cs" id="6_x3hyo"]
 [ext_resource type="StyleBox" uid="uid://c0edsfm44aao6" path="res://Themes/PanelContainerStyleBoxFlatTheme.tres" id="7_pl5dj"]
+[ext_resource type="Script" uid="uid://c0loqoyx58ncj" path="res://addons/FFmpegMediaPlayer/FFmpegGodot/FFmpegSource.cs" id="7_wca4i"]
 [ext_resource type="Theme" uid="uid://cyw821moyqybs" path="res://Themes/MenuButtonTheme.tres" id="8_x3rr0"]
 [ext_resource type="Texture2D" uid="uid://vsrl7sgaf4w8" path="res://Icons/Stop.svg" id="9_lvj2g"]
 [ext_resource type="Texture2D" uid="uid://sp0gv346qrqo" path="res://Icons/Subtitle.svg" id="10_3buwp"]
@@ -15,6 +16,11 @@
 [ext_resource type="Texture2D" uid="uid://djh8fccm5lbus" path="res://Icons/Info.svg" id="13_fkep2"]
 [ext_resource type="Texture2D" uid="uid://ch4c5avwma3gs" path="res://Icons/ScreenShot.svg" id="13_jwybq"]
 [ext_resource type="PackedScene" uid="uid://vm0vs1qtuf2h" path="res://Scenes/Test/Windows/SettingsWindow.tscn" id="14_846w5"]
+
+[sub_resource type="Resource" id="Resource_jwybq"]
+script = ExtResource("7_wca4i")
+Url = "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_1MB.mp4"
+metadata/_custom_type_script = "uid://c0loqoyx58ncj"
 
 [sub_resource type="Gradient" id="Gradient_5vw27"]
 offsets = PackedFloat32Array(0)
@@ -80,6 +86,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("6_x3hyo")
+Source = SubResource("Resource_jwybq")
+AutoPlay = true
 DebugLog = true
 metadata/_custom_type_script = "uid://b53q7wagpa3v4"
 
